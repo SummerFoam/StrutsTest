@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+	<!-- 配置action可以进行国际化 -->
+ <constant name="struts.custom.i18n.resources" value="message"></constant>
+<!-- 只过滤以action或者do结尾的访问  --> 
+<constant name="struts.action.extension" value="action,do"></constant>
+ <!--每次修改struts.xml不需要重新启动服务器   -->
+ <!-- 允许静态方法导入 -->
+<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+ <constant name="devMode" value="true"></constant>
+   <package name="test" extends="struts-default">
+	<action name="loginAction" class="pdsu.action.UserAction" method="login">
+	<result name="admin">/admin_manager.jsp</result>
+	<result name="error">/loginFailed.jsp</result>
+	<result name="user">/manager.jsp</result>  
+	</action>
+	<action name="adminlogin" class="pdsu.action.UserAction" method="login">
+	<result name="success">/admin_manager.jsp</result>
+	<result name="error">/loginFailed.jsp</result>
+	<result name="input">/newLogin.jsp</result>  
+	</action>
+	<action name="registAction" class="pdsu.action.UserAction" method="regist">
+	<result name="success">/newLogin.jsp</result>
+	<result name="error">/newReg.jsp</result>
+	<result name="input">/newReg.jsp</result>  
+	</action>
+	<action name="addAction" class="pdsu.action.UserAction" method="regist">
+	<result name="success">/Success.jsp</result>
+	<result name="error">/newReg.jsp</result>
+	<result name="input">/newReg.jsp</result>  
+	</action>
+	<action name="AjaxAction" class="pdsu.action.UserAction" method="IsExist">
+	</action>
+	<action name="select" class="pdsu.action.UserAction" method="findByUS">
+	<result name="success">/select_re.jsp</result>
+	</action>
+	<action name="update" class="pdsu.action.UserAction" method="Update">
+	<result name="update" type="chain">findUserById</result>
+	<result name="error">/update.jsp</result>
+	</action>
+	<action name="delete" class="pdsu.action.UserAction" method="delete">
+	<result name="delete" type="chain">findAll</result>
+	<result name="error" type="chain">findAll</result>
+	</action>
+	<action name="findAll" class="pdsu.action.UserAction" method="findAll">
+	<result name="success">/admin_select_re.jsp</result> 
+	</action>
+	<action name="findUserById" class="pdsu.action.UserAction" method="findUserById">
+	<result name="success">/select_re.jsp</result> 
+	</action>
+	</package>
+	<package name="Security"  extends="struts-default">
+	<action name="SecurityCodeImageAction" class="pdsu.validate.action.SecurityCodeImageAction">
+	<!-- http://blog.csdn.net/z69183787/article/details/51470250 -->
+	<result name="success" type="stream">
+	<param name="contentType">image/jpeg</param>
+ 	<param name="inputName">imageStream</param>
+ 	<param name="bufferSize">2048</param>
+	</result>
+	</action>
+	</package>
+</struts>
